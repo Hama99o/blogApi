@@ -1,0 +1,33 @@
+AllCops:
+  SuggestExtensions: false
+  Exclude:
+  - 'db/**/*'
+  - 'config/**/*'
+  - 'script/**/*'
+  - 'bin/**/*'
+  - !ruby/regexp /old_and_unused\.rb$/
+  Include:
+  - app/models/*.rb
+  - 'app/controllers/**/*'
+  - 'spec/controllers/**/*'
+  # - '**/*.rb'
+  # - '**/*.gemfile'
+  # - '**/*.gemspec'
+  # - '**/*.rake'
+  # - '**/*.ru'
+  # - '**/Gemfile'
+  # - '**/Rakefile'
+Documentation:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: never
+ClassAndModuleChildren:
+  Enabled: false
+SymbolArray:
+  Enabled: false
+Metrics/MethodLength:
+  Max: 1000
+Lint/EmptyFile:
+ Enabled: false
+Metrics/BlockLength:
+ Enabled: false
