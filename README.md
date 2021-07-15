@@ -31,22 +31,22 @@ bundle install
   # alter rolle with creartdb
 >  ALTER USER hama CREATEDB;
 ```
-// Create the database
+  Create the database
 ```sh
-rake db:create
+  rake db:create
 ```
-// Run the migration files
+  Run the migration files
 ```sh
-rake db:migrate
+  rake db:migrate
 ```
 
 
-##Using rubocop
+## Using rubocop
   * Finding indentation error run
 ```sh
   rubucop
 ```
-  *For auto-correct run
+  * For auto-correct run
 ```sh
   rubocop -A
 ```
