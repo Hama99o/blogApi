@@ -5,20 +5,71 @@ application up and running.
 
 Things you may want to cover:
 
-* Ruby version
+## Install
 
-* System dependencies
+```sh
+bundle install
+```
 
-* Configuration
+## Ruby version
+  '2.5.7'
+## System dependencies
+* postgresql
 
-* Database creation
+## Run
+- `rails s` to start the rails server
 
-* Database initialization
+## Database creation
 
-* How to run the test suite
+  *Creating role with postgres
+```sh
+  sudo su - postgres
+  psql
+>  create ROLE hama;
+  #alter role with login
+>  ALTER ROLE "hama" WITH LOGIN;
+  #alter rolle with creartdb
+>  ALTER USER hama CREATEDB;
+```
+// Create the database
+```sh
+rake db:create
+```
+// Run the migration files
+```sh
+rake db:migrate
+```
 
-* Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
+##Using rubocop
+  *Finding indentation error run
+```sh
+  rubucop
+```
+  *For auto-correct run
+```sh
+  rubocop -A
+```
+  *Or
+```sh
+  rubocop --auto-correct-all
+```
+  *To stop test the specific type in Rubocop linter, you can add the test type name in './.rubocop.yml'
+```sh
+  ex: Style/Encoding:
+        Enabled: false
+```
 
-* ...
+*For running or not running a specific file add file name in AllCops, Exclude/Include in '.rubocop.yml'
+
+## How to run the test suite
+  #RSPEC Test:
+
+  *For running all test:
+```sh
+  rspec
+```
+*For running specific test:
+```sh
+  rspec spec/your_test_path
+```
