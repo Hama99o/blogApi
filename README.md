@@ -21,14 +21,14 @@ bundle install
 
 ## Database creation
 
-  *Creating role with postgres
+  * Creating role with postgres
 ```sh
   sudo su - postgres
   psql
 >  create ROLE hama;
-  #alter role with login
+  # alter role with login
 >  ALTER ROLE "hama" WITH LOGIN;
-  #alter rolle with creartdb
+  # alter rolle with creartdb
 >  ALTER USER hama CREATEDB;
 ```
 // Create the database
@@ -42,7 +42,7 @@ rake db:migrate
 
 
 ##Using rubocop
-  *Finding indentation error run
+  * Finding indentation error run
 ```sh
   rubucop
 ```
@@ -50,26 +50,26 @@ rake db:migrate
 ```sh
   rubocop -A
 ```
-  *Or
+  * Or
 ```sh
   rubocop --auto-correct-all
 ```
-  *To stop test the specific type in Rubocop linter, you can add the test type name in './.rubocop.yml'
+  * To stop test the specific type in Rubocop linter, you can add the test type name in './.rubocop.yml'
 ```sh
   ex: Style/Encoding:
         Enabled: false
 ```
 
-*For running or not running a specific file add file name in AllCops, Exclude/Include in '.rubocop.yml'
+* For running or not running a specific file add file name in AllCops, Exclude/Include in '.rubocop.yml'
 
 ## How to run the test suite
-  #RSPEC Test:
+  # RSPEC Test:
 
-  *For running all test:
+  * For running all test:
 ```sh
   rspec
 ```
-*For running specific test:
+* For running specific test:
 ```sh
   rspec spec/your_test_path
 ```
