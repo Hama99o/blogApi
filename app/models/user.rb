@@ -6,22 +6,22 @@ class User < ApplicationRecord
     (?=.*\d)           # Must contain a digit
     (?=.*[a-z])        # Must contain a lower case character
     (?=.*[A-Z])        # Must contain an upper case character
-  /x
+  /x.freeze
 
   validates :password,
-    presence: true,
-    length: { in: Devise.password_length },
-    format: { with: PASSWORD_FORMAT },
-    confirmation: true,
-    on: :create
+            presence: true,
+            length: { in: Devise.password_length },
+            format: { with: PASSWORD_FORMAT },
+            confirmation: true,
+            on: :create
 
   validates :password,
-    allow_nil: true,
-    length: { in: Devise.password_length },
-    format: { with: PASSWORD_FORMAT },
-    confirmation: true,
-    on: :update
+            allow_nil: true,
+            length: { in: Devise.password_length },
+            format: { with: PASSWORD_FORMAT },
+            confirmation: true,
+            on: :update
 
   devise :database_authenticatable, :registerable,
-          :jwt_authenticatable, jwt_revocation_strategy: JwtDenylist
+         :jwt_authenticatable, jwt_revocation_strategy: JwtDenylist
 end
