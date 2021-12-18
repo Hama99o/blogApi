@@ -13,7 +13,7 @@ module UserHelpers
     def build_user
     FactoryBot.build(:user,
             email: Faker::Internet.email,
-            password: Faker::Internet.password
+            password: Faker::Internet.password(min_length: 10, max_length: 20, mix_case: true) 
         )
   end
 
