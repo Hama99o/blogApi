@@ -108,9 +108,7 @@ RSpec.describe Api::V1::ArticlesController, type: :controller do
         {
           article: {
             title: 'hi world',
-            content: 'hi_world',
-            categories: 'good',
-            language: 'rb'
+            content: 'hi_world'
           }
         }
       end
@@ -130,8 +128,7 @@ RSpec.describe Api::V1::ArticlesController, type: :controller do
       let(:article_params) do
         {
           title: 'hello world',
-          content: 'hello_world',
-          language: 'main'
+          content: 'hello_world'
         }
       end
 
