@@ -10,4 +10,8 @@ class ApplicationController < ActionController::API
       render jsonapi_errors: resource.errors, status: 400
     end
   end
+
+  def default_url_options
+    { locale: I18n.locale }
+  end
 end
