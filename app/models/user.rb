@@ -7,6 +7,18 @@ class User < ApplicationRecord
     (?=.*[a-z])        # Must contain a lower case character
     (?=.*[A-Z])        # Must contain an upper case character
   /x.freeze
+  
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
+
+  validates :email,
+            presence: true,
+            format: { with: VALID_EMAIL_REGEX },
+            on: :create
+
+  validates :email,
+            allow_nil: true,
+            format: { with: VALID_EMAIL_REGEX },
+            on: :update
 
   validates :password,
             presence: true,
@@ -24,4 +36,10 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :registerable,
          :jwt_authenticatable, jwt_revocation_strategy: JwtDenylist
+
+  def update_if_user_info_changed(resource, params)
+    if resource[:email] != params[:email] || !resource.valid_password?(params[:password])
+      resource.update!(params)
+    end
+  end
 end
