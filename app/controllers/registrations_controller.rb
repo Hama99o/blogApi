@@ -18,9 +18,9 @@ class RegistrationsController < Devise::RegistrationsController
       set_flash_message_for_update(resource, prev_unconfirmed_email)
       bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
 
-      render json: resource
+      render_jsonapi_response(resource)
     else
-      render json: { 'errors': [ { 'status': '200', 'title': 'Nothing changed' } ] }
+      render json: { 'errors': [ { 'status': '200', 'title': 'Nothings changed' } ] }
     end
   end
 

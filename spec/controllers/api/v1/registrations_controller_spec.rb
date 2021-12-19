@@ -28,18 +28,33 @@ describe RegistrationsController, type: :request do
     end
   end
 
-  # context 'When an email already exists' do
-  #   before do
-  #     post signup_url, params: {
-  #       user: {
-  #         email: existing_user.email,
-  #         password: existing_user.password
-  #       }
-  #     }
-  #   end
-  #
-  #   it 'returns 400' do
-  #     expect(response.status).to eq(400)
-  #   end
-  # end
+  context 'with login user' do
+    before do
+      login_with_api(existing_user)
+    end
+
+    it 'returns 200' do
+      expect(response.status).to eq(200)
+    end
+
+    it 'returns a token' do
+      expect(response.headers['Authorization']).to be_present
+    end
+
+    context 'with login user and valid email and password' do
+      before do
+        put signup_url, params: {
+          user: {
+            email: 'hmmshl@gmail.com',
+            password: user.password
+          }
+        }, headers: {
+          'Authorization': response.headers['Authorization']
+        }
+      end
+      it 'updates the user email and password' do
+        expect(json['data']).to have_attribute(:email).with_value('hmmshl@gmail.com')
+      end
+    end
+  end
 end
