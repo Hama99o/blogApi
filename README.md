@@ -40,6 +40,8 @@ bundle install
   rake db:migrate
 ```
 
+## User info
+* set '"DEVISE_JWT_SECRET_KEY"' in your .bashrc
 
 ## Using rubocop
   * Finding indentation error run
