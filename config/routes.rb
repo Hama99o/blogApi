@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root to: "application#redirect_to_quotes"
-
+  default_url_options :host => "http://localhost:3000"
+  
   namespace :api, defaults: { format: :json }  do
     namespace :v1 do
       resources :articles
