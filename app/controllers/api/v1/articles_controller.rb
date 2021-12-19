@@ -1,6 +1,6 @@
 class Api::V1::ArticlesController < ApplicationController
   before_action :article, only: [:show, :update, :destroy]
-  # before_action :authenticate_user!, only: [:create, :update, :destroy]
+  before_action :authenticate_user!, only: [:create, :update, :destroy]
 
   # GET /api/v2/articles
   def index
@@ -83,8 +83,7 @@ class Api::V1::ArticlesController < ApplicationController
     params.require(:article).permit(
       :title,
       :content,
-      :language,
-      :categories
+      :tags
     )
   end
 end

@@ -1,37 +1,52 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::ArticlesController, type: :controller do
+describe Api::V1::ArticlesController, type: :request do
   describe 'GET /articles' do
+    subject { get path , params: params}
     let(:articles) { create_list(:article, nb_articles) }
     let(:nb_articles) { 25 }
+    let(:user) { create_user }
+    let(:params) { {} }
+    let(:path) {'/api/v1/articles'}
+    let(:headers) {{ 'Authorization': response.headers['Authorization'] }}
+
+    before do
+      login_with_api(user)
+    end
+
+    it 'returns 200' do
+      expect(response.status).to eq(200)
+    end
+
+    it 'returns the user' do
+      expect(json['data']).to have_id(user.id.to_s)
+      expect(json['data']).to have_type('users')
+    end
 
     context 'with articles' do
       let(:nb_articles) { 5 }
 
       before do
+        login_with_api(user)
+
         articles
       end
 
-      subject { get :index }
-
       it 'return all articles' do
         subject
-        body = JSON.parse(response.body)
-        expect(response).to have_http_status(:success)
-        expect(body['articles'].count).to eq(5)
-        expect(body['articles'].count).not_to eq(6)
+        expect(response).to have_http_status(200)
+        expect(json['articles'].count).to eq(5)
+        expect(json['articles'].count).not_to eq(6)
       end
     end
 
     context 'with search attributes' do
       let(:article) { create(:article, title: 'Test project') }
-      let(:search) { 'rojec' }
+      let(:params) { { search: 'rojec' } }
 
       before do
         article
       end
-
-      subject { get :index, params: { search: search } }
 
       it 'finds a searched article by title' do
         subject
@@ -43,28 +58,25 @@ RSpec.describe Api::V1::ArticlesController, type: :controller do
 
     context 'with search and paginate attributes' do
       let(:article) { create(:article, title: 'Test articles') }
-      let(:search) { 'art' }
+      let(:params) { { page: 0, per: 30, search: 'art' } }
 
       before do
         article
         articles
       end
 
-      subject { get :index, params: { page: 0, per: 30, search: search } }
-
       it 'finds a searched and paginate article by title and content' do
         subject
-        body = JSON.parse(response.body)
-        id = body['articles'].first['id']
-        per = body['meta']['per']
+        id = json['articles'].first['id']
+        per = json['meta']['per']
         expect(id).to eq(article.id)
-        expect(body['articles'].count).to eq(1)
+        expect(json['articles'].count).to eq(1)
         expect(per).to eq(30)
       end
     end
 
     context 'with pagination' do
-      subject { get :index, params: { page: 0 } }
+      let(:params) {{ page: 0 }}
 
       before do
         articles
@@ -78,7 +90,7 @@ RSpec.describe Api::V1::ArticlesController, type: :controller do
     end
 
     context 'with pagination' do
-      subject { get :index, params: { page: 1 } }
+      let(:params) {{ page: 1 }}
 
       before do
         articles
@@ -93,8 +105,8 @@ RSpec.describe Api::V1::ArticlesController, type: :controller do
 
     describe 'destroy/articles' do
       let!(:article) { create(:article) }
+      subject { delete "/api/v1/articles/#{article.id}", headers: headers }
 
-      subject { delete :destroy, params: { id: article.id } }
       it 'removes article' do
         expect do
           subject
@@ -112,7 +124,9 @@ RSpec.describe Api::V1::ArticlesController, type: :controller do
           }
         }
       end
-      subject { post :create, params: params }
+      subject do
+        post "/api/v1/articles", params: params, headers: headers
+      end
 
       it 'create a new article' do
         expect do
@@ -128,12 +142,13 @@ RSpec.describe Api::V1::ArticlesController, type: :controller do
       let(:article_params) do
         {
           title: 'hello world',
-          content: 'hello_world'
+          content: 'hello_world',
+          tags: ['js']
         }
       end
 
       subject do
-        put :update, params: { id: article_to_update, article: article_params }
+        put "/api/v1/articles/#{article_to_update.id}", params: { id: article_to_update, article: article_params }, headers: headers
       end
 
       it 'updates a certain articles' do
@@ -145,6 +160,7 @@ RSpec.describe Api::V1::ArticlesController, type: :controller do
                                                              }.to('hello_world')
         expect(response.status).to eq 200
         expect(article_to_update.reload.content).not_to eq('hi_world')
+        expect(article_to_update.reload.tags).not_to eq(['js'])
       end
     end
   end
