@@ -20,7 +20,7 @@ class RegistrationsController < Devise::RegistrationsController
 
       render_jsonapi_response(resource)
     else
-      render json: { 'errors': [ { 'status': '200', 'title': 'Nothings changed' } ] }
+      render json: { 'errors': [{ 'status': '200', 'title': 'Nothings changed' }] }
     end
   end
 

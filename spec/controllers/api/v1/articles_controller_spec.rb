@@ -2,13 +2,13 @@ require 'rails_helper'
 
 describe Api::V1::ArticlesController, type: :request do
   describe 'GET /articles' do
-    subject { get path , params: params}
+    subject { get path, params: params }
     let(:articles) { create_list(:article, nb_articles) }
     let(:nb_articles) { 25 }
     let(:user) { create_user }
     let(:params) { {} }
-    let(:path) {'/api/v1/articles'}
-    let(:headers) {{ 'Authorization': response.headers['Authorization'] }}
+    let(:path) { '/api/v1/articles' }
+    let(:headers) { { 'Authorization': response.headers['Authorization'] } }
 
     before do
       login_with_api(user)
@@ -76,7 +76,7 @@ describe Api::V1::ArticlesController, type: :request do
     end
 
     context 'with pagination' do
-      let(:params) {{ page: 0 }}
+      let(:params) { { page: 0 } }
 
       before do
         articles
@@ -90,7 +90,7 @@ describe Api::V1::ArticlesController, type: :request do
     end
 
     context 'with pagination' do
-      let(:params) {{ page: 1 }}
+      let(:params) { { page: 1 } }
 
       before do
         articles
@@ -125,7 +125,7 @@ describe Api::V1::ArticlesController, type: :request do
         }
       end
       subject do
-        post "/api/v1/articles", params: params, headers: headers
+        post '/api/v1/articles', params: params, headers: headers
       end
 
       it 'create a new article' do
@@ -148,7 +148,8 @@ describe Api::V1::ArticlesController, type: :request do
       end
 
       subject do
-        put "/api/v1/articles/#{article_to_update.id}", params: { id: article_to_update, article: article_params }, headers: headers
+        put "/api/v1/articles/#{article_to_update.id}", params: { id: article_to_update, article: article_params },
+                                                        headers: headers
       end
 
       it 'updates a certain articles' do

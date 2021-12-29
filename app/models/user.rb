@@ -7,8 +7,8 @@ class User < ApplicationRecord
     (?=.*[a-z])        # Must contain a lower case character
     (?=.*[A-Z])        # Must contain an upper case character
   /x.freeze
-  
-  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
+
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i.freeze
 
   validates :email,
             presence: true,
@@ -38,8 +38,6 @@ class User < ApplicationRecord
          :jwt_authenticatable, jwt_revocation_strategy: JwtDenylist
 
   def update_if_user_info_changed(resource, params)
-    if resource[:email] != params[:email] || !resource.valid_password?(params[:password])
-      resource.update!(params)
-    end
+    resource.update!(params) if resource[:email] != params[:email] || !resource.valid_password?(params[:password])
   end
 end
