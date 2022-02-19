@@ -1,6 +1,5 @@
 class SerializableUser < JSONAPI::Serializable::Resource
   type 'users'
-
   attributes :email
 
   link :self do
