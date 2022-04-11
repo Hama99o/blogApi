@@ -54,6 +54,7 @@ bundle install
 ```
   * Or
 ```sh
+  rubocop --auto-correct-all
 ```
   * To stop test the specific type in Rubocop linter, you can add the test type name in './.rubocop.yml'
 ```sh
